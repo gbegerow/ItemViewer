@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Item Viewer</title>
+
+    <style>
+      :root {
+        --content-text: #5c5b5b;
+        --status-text: #fc6e15;
+        --header-text: #11325a;
+        --header-color: #d1c5ba;
+        --side-background: #f0eeed;
+        /* --menu-nav-text: #f0eeed; */
+        --hyper-links: #005293;
+        --besuch-links: #336699;
+        --button-text: RGB(64, 59, 55);
+        --button-color: #fc6e15;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background: #e0edef;
+        background: var(--side-background);
+        font-family: Calibri, sans-serif;
+        color: #5c5b5b;
+        color: var(--content-text);
+      }
+
+      .items {
+        margin: 1em;
+        padding: 6px;
+        background: white;
+        /* background: var(--side-background); */
+        width: calc(100% - 2em);
+        font-size: 16px;
+        overflow: v-scroll;
+
+        /* transitions from auto are unreliable*/
+        transition: width 300ms ease-in, height 300ms ease-in, flex 300ms;
+      }
+
+      .items .item span {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 3px;
+        background-color: white;
+        /* background-color: var(--header-color); */
+      }
+
+      .toolbar {
+        margin: 6px 0px;
+        width: 100%; /* make it fill the whole line */
+
+        /* list */
+        grid-row: 1;
+        grid-column-start: 1;
+        grid-column-end: -1; /* does not work in IE! */
+
+        /* card */
+        /* flex-grow: 10; */
+      }
+
+      /* view list */
+      .items.view_list {
+        display: grid;
+        grid-template-columns: 64px 3fr 1fr 1fr 1fr 5em 1fr;
+      }
+
+      .items.view_list .item {
+        /* reset fixed width and height */
+        width: auto;
+        height: auto;
+
+        display: contents; /*ignore box for grid */
+      }
+
+      .items.view_list .item span {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 3px;
+
+        border: 1px darkgray solid;
+        border-collapse: collapse;
+      }
+
+      /* card layout */
+      .items.view_card {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .items.view_card .item {
+        /* reset fixed width and height */
+        width: auto;
+        height: auto;
+
+        flex: 1;
+        display: grid;
+        grid-template-columns: 32px 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr auto auto auto;
+        /* grid-template-areas:
+          "icon title title title"
+          "vorgang vorgang"
+          "process type"
+          "modified by"; */
+
+        margin: 0.3em;
+        padding: 0.6em;
+
+        /* outline: 1px solid var(--header-text); */
+        border-radius: 6px;
+        box-shadow: #d3d0d0 2px 2px;
+      }
+
+      .items .item_icon {
+        /* grid-area: "icon"; */
+        float: left;
+      }
+
+      .items .item_title {
+        /* grid-area: "title"; */
+        font-size: 160%;
+      }
+
+      .items .item_vorgang {
+        grid-area: "vorgang";
+      }
+
+      .items .item_process {
+        grid-area: "process";
+      }
+
+      .items .item_type {
+        grid-area: "type";
+      }
+
+      .items .item_modified {
+        grid-area: "modified";
+      }
+
+      .items .item_by {
+        grid-area: "by";
+      }
+
+      /* tabs s. https://codepen.io/oknoblich/pen/tfjFl
+      radiobuttons with label as tab then
+      .category1 { display: none }
+      #tab-category1:checked ~ .category1 { display: block }
+      */
+    </style>
+  </head>
+  <body>
+    <h1>item Viewer Test</h1>
+    <section class="items view_card">
+      <div class="toolbar">
+        <label
+          >Ansicht:
+          <select id="ddlView">
+            <option value="view_list">Liste</option>
+            <option value="view_card">Karten</option>
+          </select></label
+        >
+        <label
+          >Gruppiert:
+          <select>
+            <option value="no">Nicht Gruppiert</option>
+            <option value="vorgang">Vorgang</option>
+            <option value="art">Vorgang</option>
+          </select></label
+        >
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW01</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title">Lorem Ipsum-Antrag 2019-01-01-earum</span>
+        <span class="item_vorgang">NW02</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW03</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW04</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW05</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW06</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW07</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW08</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW09</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW10</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW11</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+      <div class="item">
+        <span class="item_icon"><img src="images/lg_icdocx.png" alt=""/></span>
+        <span class="item_title"
+          >Lorem Ipsum - Antrag 2019-01-01 - earum pariatur inventore sapiente
+          eum cupiditate ratione sed</span
+        >
+        <span class="item_vorgang">NW12</span>
+        <span class="item_process">Antrag</span>
+        <span class="item_type">Sontiges</span>
+        <span class="item_modified">01.06.2019</span>
+        <span class="item_by">Antragsportal</span>
+      </div>
+    </section>
+
+    <script>
+      // switch to selected view
+      document.getElementById("ddlView").addEventListener("change", event => {
+        const ddl = event.target;
+        const itemsClasses = ddl.closest(".items").classList;
+        itemsClasses.remove("view_card");
+        itemsClasses.remove("view_list");
+        itemsClasses.add(ddl.value);
+      });
+    </script>
+  </body>
+</html>
